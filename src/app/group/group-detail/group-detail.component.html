@@ -1,0 +1,106 @@
+<app-modal-alert
+  *ngIf="alertBox.errorMessage"
+  [message]="alertBox.errorMessage"
+  (close)="alertBox.onCloseAlert()"
+></app-modal-alert>
+<app-modal-dialog
+  *ngIf="confirmDialog.isVisible"
+  [message]="confirmDialog.message"
+  (close)="confirmDialog.onCloseClick()"
+  (yesAction)="confirmDialog.onYesClick()"
+  (noAction)="confirmDialog.onNoClick()"
+></app-modal-dialog>
+<div class="ww-flex-column ww-detail-component" style="width: 25svw">
+  <!-- Form Input panel -->
+  <form
+    [formGroup]="groupDetailForm"
+    (ngSubmit)="onSubmit()"
+    #f="ngForm"
+    class="ww-flex-column ww-form"
+  >
+    <input type="hidden" id="groupId" formControlName="groupId" />
+    <div class="ww-form-input">
+      <label for="name">Name</label>
+      <input formControlName="name" type="text" id="name" required />
+    </div>
+    <div class="ww-form-input">
+      <label for="description">Description</label>
+      <input
+        formControlName="description"
+        type="text"
+        id="description"
+        required
+      />
+    </div>
+
+    <!-- Users Selection List -->
+    <div
+      id="groupusertable"
+      style="margin: 10px"
+      class="ww-table-container ww-selection-component ww-internal-selection-component"
+      (drop)="onDropUser($event)"
+      (dragover)="dnd.onDragOver($event)"
+      (dragstart)="dnd.onDragStart($event,'user')"
+    >
+      <div class="ww-selection-component-title">Assigned Users</div>
+      <div *ngIf="currentGroup">
+        <table class="ww-table">
+          <tbody>
+            <tr
+              *ngFor="let user of currentGroup.users; let i = index"
+              [id]="listName"
+            >
+              <td
+                *ngIf="!user.isDeleted"
+                draggable="true"
+                [attr.data-id]="user.id"
+                [attr.data-value]="user.fullName"
+                [attr.data-source]="listName"
+                [class.ww-item-new]="user.isNew"
+                [class.ww-item-deleted]="user.isDeleted"
+              >
+                {{ user.fullName }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Button Panel -->
+    <div class="ww-button-container">
+      <button
+        *ngIf="!editMode"
+        type="submit"
+        [disabled]="!f.valid || !(f.touched || f.dirty)"
+        class="ww-button ww-button-green"
+      >
+        Add
+      </button>
+      <button
+        *ngIf="editMode"
+        type="submit"
+        [disabled]="!f.valid || !(f.touched || f.dirty)"
+        class="ww-button ww-button-blue"
+      >
+        Save
+      </button>
+      <button
+        class="ww-button ww-button-yellow"
+        type="button"
+        [disabled]="!(f.touched || f.dirty)"
+        (click)="onCancel()"
+      >
+        Cancel
+      </button>
+      <button
+        *ngIf="editMode"
+        type="button"
+        class="ww-button ww-button-red"
+        (click)="onDelete()"
+      >
+        Delete
+      </button>
+    </div>
+  </form>
+</div>

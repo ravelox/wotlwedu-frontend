@@ -1,0 +1,122 @@
+<app-modal-alert
+  *ngIf="alertBox.errorMessage"
+  [message]="alertBox.errorMessage"
+  (close)="alertBox.onCloseAlert()"
+></app-modal-alert>
+<app-modal-dialog
+  *ngIf="confirmDialog.isVisible"
+  [message]="confirmDialog.message"
+  (close)="confirmDialog.onCloseClick()"
+  (yesAction)="confirmDialog.onYesClick()"
+  (noAction)="confirmDialog.onNoClick()"
+></app-modal-dialog>
+
+<div class="ww-flex-column ww-detail-component" style="position: relative;">
+  <app-image-select-mini
+  *ngIf="imageSelectorVisible"
+  style="z-index: 500; position: absolute; top: 100px; left: 30px"
+  (close)="toggleImageSelector()"
+></app-image-select-mini>
+  <form
+    [formGroup]="itemDetailForm"
+    (ngSubmit)="onSubmit()"
+    #f="ngForm"
+    class="ww-flex-column ww-form"
+  >
+    <!-- Form Input panel -->
+    <input type="hidden" id="itemId" formControlName="itemId" />
+    <div class="ww-form-input">
+      <label for="name">Name</label>
+      <input formControlName="name" type="text" id="name" required />
+    </div>
+    <div class="ww-form-input" style="margin-right: 3px">
+      <label for="description">Description</label>
+      <input
+        formControlName="description"
+        type="text"
+        id="description"
+        required
+      />
+    </div>
+    <div class="ww-form-input">
+      <label for="url">URL</label>
+      <input formControlName="url" type="text" id="url" />
+    </div>
+    <div class="ww-form-input">
+      <label for="location">Location</label>
+      <input formControlName="location" type="text" id="location" />
+    </div>
+
+    <!-- Avatar Image -->
+    <div>
+      <div class="ww-label">Avatar Image</div>
+      <div
+        style="
+          border: 2px solid black;
+          width: 75px;
+          height: 75px;
+          border-radius: 5px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "
+        (drop)="onDrop($event)"
+        (dragover)="onDragOver($event)"
+        (click)="toggleImageSelector()"
+      >
+        <img
+          src="{{ currentImage.url }}"
+          *ngIf="currentImage && currentImage.url"
+          style="height: 70px; width: 70px"
+        />
+        <div
+          *ngIf="!(currentImage && currentImage.url)"
+          class="ww-flex-column"
+          style="
+            height: 70px;
+            width: 70px;
+            justify-content: center;
+            align-items: center;
+          "
+        >
+          No Image
+        </div>
+      </div>
+    </div>
+    <!-- Button Panel -->
+    <div class="ww-button-container">
+      <button
+        *ngIf="!editMode"
+        type="submit"
+        [disabled]="!f.valid || !(f.touched || f.dirty)"
+        class="ww-button ww-button-green"
+      >
+        Add
+      </button>
+      <button
+        *ngIf="editMode"
+        type="submit"
+        [disabled]="!f.valid || !(f.touched || f.dirty)"
+        class="ww-button ww-button-blue"
+      >
+        Save
+      </button>
+      <button
+        class="ww-button ww-button-yellow"
+        type="button"
+        [disabled]="!(f.touched || f.dirty)"
+        (click)="onCancel()"
+      >
+        Cancel
+      </button>
+      <button
+        *ngIf="editMode"
+        type="button"
+        class="ww-button ww-button-red"
+        (click)="onDelete()"
+      >
+        Delete
+      </button>
+    </div>
+  </form>
+</div>

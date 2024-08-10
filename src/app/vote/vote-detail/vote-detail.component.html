@@ -1,0 +1,55 @@
+<div class="ww-flex-column ww-detail-component" style="justify-content: flex-start;">
+  <app-modal-alert
+    *ngIf="alertBox.errorMessage"
+    [message]="alertBox.errorMessage"
+    (close)="alertBox.onCloseAlert()"
+  ></app-modal-alert>
+  <div class="ww-selection-component-title">Vote Details</div>
+  <!-- Form Input Panel -->
+  <div
+    class="ww-flex-column ww-form"
+    style="justify-content: flex-start; gap: 5px;"
+  >
+    <input type="hidden" id="voteId"/>
+    <div class="ww-form-input">
+      <label>Election</label>
+      <span *ngIf="currentVote && currentVote.election">{{ currentVote.election.name }}</span>
+      <span *ngIf="!currentVote || ! currentVote.election">&nbsp;</span>
+    </div>
+    <div class="ww-form-input">
+      <label>Item</label>
+      <span *ngIf="currentVote && currentVote.item">{{ currentVote.item.name }}</span>
+      <span *ngIf="!currentVote || ! currentVote.item">&nbsp;</span>
+    </div>
+    <div class="ww-form-input">
+      <label>User</label>
+      <span *ngIf="currentVote && currentVote.user">{{ currentVote.user.fullName }}</span>
+      <span *ngIf="!currentVote || ! currentVote.user">&nbsp;</span>
+    </div>
+    <div class="ww-form-input">
+      <label>Decision</label>
+      <span *ngIf="currentVote && currentVote.status">{{ currentVote.status.name }}</span>
+      <span *ngIf="!currentVote || ! currentVote.status">&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- Button Panel -->
+  <div class="ww-button-container">
+    <button
+      class="ww-button ww-button-yellow"
+      type="button"
+      [disabled]="!currentVote"
+      (click)="onCancel()"
+    >
+      Cancel
+    </button>
+    <!-- <button
+      type="button"
+      class="ww-button ww-button-red"
+      [disabled]="!currentVote"
+      (click)="onDelete(currentVote.id)"
+    >
+      Delete
+    </button> -->
+  </div>
+</div>

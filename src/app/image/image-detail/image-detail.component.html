@@ -1,0 +1,89 @@
+<app-modal-dialog
+  *ngIf="confirmDialog.isVisible"
+  [message]="confirmDialog.message"
+  (close)="confirmDialog.onCloseClick()"
+  (yesAction)="confirmDialog.onYesClick()"
+  (noAction)="confirmDialog.onNoClick()"
+></app-modal-dialog>
+<app-modal-alert
+  *ngIf="alertBox.errorMessage"
+  [message]="alertBox.errorMessage"
+  (close)="alertBox.onCloseAlert()"
+></app-modal-alert>
+<div class="ww-flex-column ww-detail-component" style="width: 25svw">
+  <!-- Form Input panel -->
+  <form
+    [formGroup]="imageDetailForm"
+    (ngSubmit)="onSubmit()"
+    #f="ngForm"
+    class="ww-flex-column ww-form"
+  >
+    <input type="hidden" id="imageId" formControlName="imageId" />
+    <div class="ww-form-input">
+      <div class="ww-label" for="name">Name</div>
+      <input formControlName="name" type="text" id="name" required />
+    </div>
+    <div class="ww-form-input">
+      <div class="ww-label">Description</div>
+      <input
+        formControlName="description"
+        type="text"
+        id="description"
+        required
+      />
+    </div>
+    <div>
+      <div class="ww-label" for="filename">Filename</div>
+      <input
+        style="font-size: 0.6rem"
+        formControlName="filename"
+        type="file"
+        name="filename"
+        id="filename"
+        (change)="onUploadFileChange($event)"
+      />
+    </div>
+    <div *ngIf="currentImage" class="ww-large-image-icon">
+      <img src="{{ currentImage.url }}" style="height: 140px; width: 140px" />
+    </div>
+    <div *ngIf="!currentImage" class="ww-large-image-icon">
+      <span>No Image</span>
+    </div>
+
+    <!-- Button Panel -->
+    <div class="ww-button-container">
+      <button
+        *ngIf="!editMode"
+        type="submit"
+        [disabled]="!f.valid || !(f.touched || f.dirty)"
+        class="ww-button ww-button-green"
+      >
+        Add
+      </button>
+      <button
+        *ngIf="editMode"
+        type="submit"
+        [disabled]="!f.valid || !(f.touched || f.dirty)"
+        class="ww-button ww-button-blue"
+      >
+        Save
+      </button>
+      <button
+        class="ww-button ww-button-yellow"
+        type="button"
+        [disabled]="!(f.touched || f.dirty)"
+        (click)="onCancel()"
+      >
+        Cancel
+      </button>
+      <button
+        *ngIf="editMode"
+        type="button"
+        class="ww-button ww-button-red"
+        (click)="onDelete()"
+      >
+        Delete
+      </button>
+    </div>
+  </form>
+</div>

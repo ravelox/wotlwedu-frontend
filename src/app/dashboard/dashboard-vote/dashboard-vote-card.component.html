@@ -1,0 +1,41 @@
+<div
+  class="ww-flex-column ww-selection-component ww-external-selection-component"
+  style="width: 15svw"
+>
+  <div class="ww-selection-component-title">Elections to vote on</div>
+  <app-modal-alert
+  *ngIf="alertBox.errorMessage"
+  [message]="alertBox.errorMessage"
+  (close)="alertBox.onCloseAlert()"
+></app-modal-alert>
+
+  <!-- Selection List -->
+  <div class="ww-card-select-component-mini">
+    <div
+      class="ww-card ww-flex-row"
+      *ngFor="let vote of votes; let i = index"
+      (click)="onSelect(i)"
+      [class.ww-card-selected]="vote.isSelected"
+    >
+       <div class="ww-avatar-container ww-avatar-container-regular">
+        <img
+          *ngIf="vote.election.image"
+          src="{{ vote.election.image.url }}"
+          class="ww-avatar-container ww-avatar-container-regular ww-avatar ww-avatar-regular"
+        />
+        <div
+          *ngIf="!vote.election.image"
+          class="ww-avatar-container ww-avatar-container-regular ww-initial-icon"
+        >
+          
+            {{ vote.election.name.substr(0, 1) }}
+          
+        </div>
+      </div>
+      <div class="ww-info-block">
+        <b>{{ vote.election.name }}</b>
+        <p>{{ vote.item.name }}</p>
+      </div>
+    </div>
+  </div>
+</div>

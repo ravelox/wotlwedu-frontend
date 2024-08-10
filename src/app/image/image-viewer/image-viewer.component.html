@@ -1,0 +1,34 @@
+<div
+  class="ww-flex-column ww-selection-component"
+  style="z-index: 2000; position: absolute; top: 40px; left: 40px; width: 15svw"
+  id="imageviewer"
+>
+  <div
+    class="ww-flex-row ww-selection-component-title"
+    style="align-items: center"
+  >
+    <div class="ww-selection-component-title" id="imageviewerheader">
+      {{ image ? image.name : "Image" }}
+    </div>
+    <button type="button" class="ww-filter-reset-button" (click)="onClose()">
+      X
+    </button>
+  </div>
+  <div
+    *ngIf="image"
+    class="ww-avatar-container ww-avatar-container-regular"
+    (contextmenu)="onContextMenu($event, 0)"
+  >
+    <img
+      *ngIf="image.url"
+      src="{{ image.url }}"
+      style="max-width: 100%; height: auto"
+    />
+    <div
+      *ngIf="!image.url"
+      class="ww-avatar-container ww-avatar-container-regular ww-initial-icon"
+    >
+      {{ image.name.substr(0, 1) }}
+    </div>
+  </div>
+</div>

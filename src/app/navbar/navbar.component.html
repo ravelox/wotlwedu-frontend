@@ -1,0 +1,94 @@
+<div
+  class="ww-navbar-container ww-flex-column"
+  style="font-size: 0.6rem; justify-content: space-between"
+>
+  <div
+    class="ww-flex-column"
+    style="justify-content: space-between; align-items: center"
+  >
+    <img src="assets/wotlwedu-logo.png" style="width: 8rem; height: auto" />
+    <div>App: {{ appVersion }}</div>
+    <div>Server: {{ serverVersion }}</div>
+    <div
+      *ngIf="isLoggedIn"
+      style="
+        border: 1px solid #999999;
+        border-radius: 5px;
+        color: white;
+        margin-top: 10px;
+        padding: 3px 3px 0 3px;
+        text-align: center;
+      "
+    >
+      <p style="margin: 0; padding: 0">Logged in as</p>
+      <a class="ww-nav-profile-option" routerLink="/profile">
+        <p
+          style="
+            text-align: center;
+            background-color: var(--theme-color);
+            border-radius: 5px;
+            padding: 3px;
+            margin-top: 5px;
+          "
+        >
+          {{ loggedInUserName }}
+        </p>
+      </a>
+    </div>
+  </div>
+
+  <div
+    class="ww-flex-column ww-nav"
+    style="flex-grow: 1; justify-content: space-evenly"
+    *ngIf="isLoggedIn"
+  >
+    <div class="ww-flex-column ww-nav">
+      <a class="ww-nav-a" routerLinkActive="ww-active" routerLink="/dashboard"
+        >Dashboard</a
+      >
+      <a
+        class="ww-nav-a"
+        *ngIf="isAdmin"
+        routerLinkActive="ww-active"
+        routerLink="/users"
+        >Users</a
+      >
+      <a class="ww-nav-a" routerLinkActive="ww-active" routerLink="/prefs"
+        >Preferences</a
+      >
+      <a
+        class="ww-nav-a"
+        *ngIf="isAdmin"
+        routerLinkActive="ww-active"
+        routerLink="/roles"
+        >Roles</a
+      >
+      <a class="ww-nav-a" routerLinkActive="ww-active" routerLink="/groups"
+        >Groups</a
+      >
+      <a class="ww-nav-a" routerLinkActive="ww-active" routerLink="/categories"
+        >Categories</a
+      >
+      <a class="ww-nav-a" routerLinkActive="ww-active" routerLink="/items"
+        >Items</a
+      >
+      <a class="ww-nav-a" routerLinkActive="ww-active" routerLink="/images"
+        >Images</a
+      >
+      <a class="ww-nav-a" routerLinkActive="ww-active" routerLink="/lists"
+        >Lists</a
+      >
+      <a class="ww-nav-a" routerLinkActive="ww-active" routerLink="/elections"
+        >Elections</a
+      >
+      <a class="ww-nav-a" *ngIf="isAdmin" routerLinkActive="ww-active" routerLink="/votes"
+        >Votes</a
+      >
+    </div>
+    <div class="ww-flex-column ww-nav">
+      <a class="ww-nav-a" routerLinkActive="ww-active" routerLink="/auth"
+        >Logout</a
+      >
+    </div>
+  </div>
+</div>

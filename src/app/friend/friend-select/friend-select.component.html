@@ -1,0 +1,82 @@
+<div>
+  <app-context
+    [options]="contextMenu.options"
+    [objectId]="contextMenu.objectId"
+    (clickAway)="contextMenu.hide()"
+    [objectId]="contextMenu.objectId"
+    [show]="contextMenu.showMenu"
+    [divTop]="contextMenu.top"
+    [divLeft]="contextMenu.left"
+  ></app-context>
+  <app-modal-alert
+    *ngIf="alertBox.errorMessage"
+    [message]="alertBox.errorMessage"
+    (close)="alertBox.onCloseAlert()"
+  ></app-modal-alert>
+  <app-modal-dialog
+*ngIf="confirmDialog.isVisible"
+[message]="confirmDialog.message"
+(close)="confirmDialog.onCloseClick()"
+(yesAction)="confirmDialog.onYesClick()"
+(noAction)="confirmDialog.onNoClick()"
+></app-modal-dialog>
+</div>
+<div
+  class="ww-flex-column ww-selection-component ww-external-selection-component"
+  style="justify-items: center"
+>
+  <div class="ww-selection-component-title">Friends</div>
+  <div *ngIf="addFriend" style="z-index: 1000; position: absolute">
+    <app-friend-add (closeAdd)="onCloseAdd()"></app-friend-add>
+  </div>
+  <div *ngIf="allowAdd">
+    <button class="ww-button ww-button-theme" (click)="onClickAdd()">
+      Add
+    </button>
+  </div>
+  <div class="ww-flex-row" style="align-items: center">
+    <label for="showBlocked">Show Blocked</label>
+    <input
+      type="checkbox"
+      id="showBlocked"
+      name="showBlocked"
+      (change)="onShowBlocked($event)"
+    />
+  </div>
+  <!-- Selection List -->
+  <div class="ww-card-select-component-mini" style="z-index: 500">
+    <div
+      class="ww-card"
+      draggable="true"
+      (dragstart)="dnd.onDragStart($event, 'user')"
+      (dragover)="dnd.onDragOver($event)"
+      (drop)="dnd.onDropSelf()"
+      [attr.data-id]="friend.user.id"
+      [attr.data-value]="friend.user.fullName"
+      [attr.data-source]="listName"
+      *ngFor="let friend of currentFriends; let i = index"
+      (click)="onSelect(i)"
+      (contextmenu)="onContextMenu($event, i)"
+    >
+      <div class="ww-avatar-container ww-avatar-container-regular">
+        <img
+          *ngIf="friend.user.image && friend.user.image.url"
+          src="{{ friend.user.image.url }}"
+          class="ww-avatar ww-avatar-container-regular ww-avatar-regular"
+        />
+
+        <div
+          *ngIf="!(friend.user.image && friend.user.image.url)"
+          class="ww-avatar-container-regular ww-initial-icon"
+        >
+          {{ friend.user.firstName.substr(0, 1) }}
+        </div>
+      </div>
+
+      <div class="ww-info-block">
+        <p>{{ friend.user.fullName }}</p>
+        <p>{{ friend.status.name }}</p>
+      </div>
+    </div>
+  </div>
+</div>

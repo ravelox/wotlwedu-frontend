@@ -1,0 +1,76 @@
+<div
+  class="ww-flex-column ww-selection-component ww-external-selection-component"
+>
+  <div class="ww-selection-component-title">Users</div>
+  <app-modal-alert
+    *ngIf="alertBox.errorMessage"
+    [message]="alertBox.errorMessage"
+    (close)="alertBox.onCloseAlert()"
+  ></app-modal-alert>
+  <!-- Filter Input Box -->
+  <div class="ww-flex-row ww-filter-input-container" style="width: 10rem">
+    <form [formGroup]="filter.form" #f="ngForm">
+      <label for="filterInput">Filter</label>
+      <div class="ww-flex-row">
+        <input
+          class="ww-filter-input-box"
+          type="text"
+          id="filterString"
+          formControlName="filterString"
+          (input)="filter.onChange($event)"
+        />
+        <button
+          type="button"
+          class="ww-button-theme ww-filter-reset-button"
+          (click)="filter.onReset()"
+        >
+          X
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Page Buttons -->
+  <div class="ww-flex-row ww-page-button-container" style="width: 10rem">
+    <button
+      type="button"
+      [disabled]="!pages.hasPrevPage"
+      (click)="pages.onPrevPage()"
+      class="ww-button ww-button-regular"
+    >
+      &#8592;
+    </button>
+    <span style="text-align: center">{{ pages.currentPage }}</span>
+    <button
+      type="button"
+      [disabled]="!pages.hasNextPage"
+      (click)="pages.onNextPage()"
+      class="ww-button ww-button-regular"
+    >
+      &#8594;
+    </button>
+  </div>
+  <!-- Selection List -->
+  <div class="ww-table-container" style="width: 100%">
+    <table class="ww-table" style="width: 100%">
+      <thead>
+        <th>Email</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; let i = index" (click)="onSelect(i)">
+          <td
+            draggable="true"
+            (dragstart)="dnd.onDragStart($event, 'user')"
+            (dragover)="dnd.onDragOver($event)"
+            (drop)="dnd.onDropSelf()"
+            [attr.data-id]="user.id"
+            [attr.data-source]="listName"
+            (contextmenu)="onContextMenu($event, user.id)"
+          >
+            {{ user.email }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

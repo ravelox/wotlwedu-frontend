@@ -1,0 +1,47 @@
+<div
+  class="ww-flex-column ww-selection-component"
+  style="min-height: 100%;"
+>
+  <div class="ww-selection-component-title">Vote</div>
+  <app-modal-alert
+  *ngIf="alertBox.errorMessage"
+  [message]="alertBox.errorMessage"
+  (close)="alertBox.onCloseAlert()"
+></app-modal-alert>
+
+  <div *ngIf="currentVote && currentVote.election" class="ww-flex-row">
+    <img
+      *ngIf="currentVote.election.image && currentVote.election.image.url"
+      src="{{ currentVote.election.image.url }}"
+      style="height: 40px; width: auto"
+    />
+    <div>
+      <div>{{ currentVote.election.name }}</div>
+      <div>{{ currentVote.election.description }}</div>
+    </div>
+  </div>
+  <div *ngIf="currentVote && currentVote.item" class="ww-card ww-flex-row">
+    <img
+      *ngIf="currentVote.item.image && currentVote.item.image.url"
+      src="{{ currentVote.item.image.url }}"
+      style="height: 40px; width: auto"
+    />
+    <div>
+      <div>{{ currentVote.item.name }}</div>
+      <div>{{ currentVote.item.description }}</div>
+    </div>
+  </div>
+
+  <!-- Button Panel -->
+  <div class="ww-button-container" *ngIf="currentVote">
+    <button class="ww-button ww-button-green" (click)="onVote('yes')">Yes</button>
+    <button class="ww-button ww-button-red" (click)="onVote('no')">No</button>
+    <button class="ww-button ww-button-theme" (click)="onVote('maybe')">Maybe</button>
+    <button
+      class="ww-button ww-button-yellow"
+      (click)="onCancel()"
+    >
+      Cancel
+    </button>
+  </div>
+</div>

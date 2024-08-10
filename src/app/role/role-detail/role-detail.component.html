@@ -1,0 +1,154 @@
+<app-modal-alert
+  *ngIf="alertBox.errorMessage"
+  [message]="alertBox.errorMessage"
+  (close)="alertBox.onCloseAlert()"
+></app-modal-alert>
+<app-modal-dialog
+*ngIf="confirmDialog.isVisible"
+[message]="confirmDialog.message"
+(close)="confirmDialog.onCloseClick()"
+(yesAction)="confirmDialog.onYesClick()"
+(noAction)="confirmDialog.onNoClick()"
+></app-modal-dialog>
+<div class="ww-flex-column ww-detail-component" style="width: 25svw;">
+  <!-- Form Input panel -->
+  <form
+    [formGroup]="roleDetailForm"
+    (ngSubmit)="onSubmit()"
+    #f="ngForm"
+    class="ww-flex-column ww-form"
+  >
+    <input type="hidden" id="roleId" formControlName="roleId" />
+    <div class="ww-flex-column ww-form-input">
+      <div class="ww-label">Name</div>
+      <input formControlName="name" type="text" id="name" required />
+    </div>
+    <div class="ww-flex-column ww-form-input">
+      <div class="ww-label">Description</div>
+      <input
+        formControlName="description"
+        type="text"
+        id="description"
+        required
+      />
+    </div>
+
+    <div
+      class="ww-flex-row"
+      style="
+        gap: 5px;
+        max-height: var(--selection-list-height);
+        margin-top: 10px;
+      "
+    >
+      <!-- Capabilities Selection List -->
+
+      <div
+        id="roletable"
+        class="ww-table-container ww-selection-component ww-internal-selection-component"
+        style="width: 45%; max-height: var(--selection-list-height)"
+        (drop)="onDropCap($event)"
+        (dragover)="dnd.onDragOver($event)"
+        (dragstart)="onDragStartCap($event,'capability')"
+      >
+        <div class="ww-selection-component-title">Assigned Capabilities</div>
+        <div *ngIf="currentRole">
+          <table class="ww-table" style="width: 9rem; justify-content: center">
+            <!-- <thead>
+            <th>Name</th>
+          </thead> -->
+            <tbody>
+              <tr
+                *ngFor="let cap of currentRole.capabilities; let i = index"
+              >
+                <td
+                  *ngIf="!cap.isDeleted"
+                  draggable="true"
+                  [attr.data-id]="cap.id"
+                  [attr.data-source]="capListName"
+                  [attr.data-value]="cap.name"
+                  [class.ww-item-new]="cap.isNew"
+                  [class.ww-item-deleted]="cap.isDeleted"
+                >
+                  {{ cap.name }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Users Selection List -->
+      <div
+        id="usertable"
+        class="ww-table-container ww-selection-component ww-internal-selection-component"
+        style="width: 45%"
+        (drop)="onDropUser($event)"
+        (dragover)="dnd.onDragOver($event)"
+        (dragstart)="onDragStartUser($event,'user')"
+      >
+        <div class="ww-selection-component-title">Assigned Users</div>
+        <div *ngIf="currentRole">
+          <table class="ww-table" style="width: 9rem; justify-content: center">
+            <!-- <thead>
+              <th>Name</th>
+            </thead> -->
+            <tbody>
+              <tr
+                *ngFor="let user of currentRole.users; let i = index"
+              >
+                <td
+                  *ngIf="!user.isDeleted"
+                  draggable="true"
+                  [attr.data-id]="user.id"
+                  [attr.data-source]="userListName"
+                  [attr.data-value]="user.email"
+                  [class.ww-item-new]="user.isNew"
+                  [class.ww-item-deleted]="user.isDeleted"
+                >
+                  {{ user.email }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Button Panel -->
+    <div class="ww-button-container">
+      <button
+        *ngIf="!editMode"
+        type="submit"
+        [disabled]="!f.valid || !(f.touched || f.dirty)"
+        class="ww-button ww-button-green"
+      >
+        Add
+      </button>
+      <button
+        *ngIf="editMode"
+        type="submit"
+        [disabled]="!f.valid || !(f.touched || f.dirty)"
+        class="ww-button ww-button-blue"
+      >
+        Save
+      </button>
+      <button
+        class="ww-button ww-button-yellow"
+        type="button"
+        [disabled]="!(f.touched || f.dirty)"
+        (click)="onCancel()"
+      >
+        Cancel
+      </button>
+      <button
+        *ngIf="editMode"
+        type="button"
+        class="ww-button ww-button-red"
+        (click)="onDelete()"
+      >
+        Delete
+      </button>
+    </div>
+  </form>
+</div>

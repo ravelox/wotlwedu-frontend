@@ -1,0 +1,90 @@
+<div
+  class="ww-flex-column ww-selection-component ww-external-selection-component"
+  style="width: 40svw"
+>
+  <div class="ww-selection-component-title">Users</div>
+  <app-modal-alert
+    *ngIf="alertBox.errorMessage"
+    [message]="alertBox.errorMessage"
+    (close)="alertBox.onCloseAlert()"
+  ></app-modal-alert>
+  <!-- Filter Input Box -->
+  <div class="ww-flex-row ww-filter-input-container" style="width: 10rem">
+    <form [formGroup]="filter.form" #f="ngForm">
+      <label for="filterInput">Filter</label>
+      <div class="ww-flex-row">
+        <input
+          class="ww-filter-input-box"
+          type="text"
+          id="filterString"
+          formControlName="filterString"
+          (input)="filter.onChange($event)"
+        />
+        <button
+          type="button"
+          class="ww-button-theme ww-filter-reset-button"
+          (click)="filter.onReset()"
+        >
+          X
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Page Buttons -->
+  <div class="ww-flex-row ww-page-button-container">
+    <button
+      type="button"
+      [disabled]="!pages.hasPrevPage"
+      (click)="pages.onPrevPage()"
+      class="ww-button ww-button-regular"
+    >
+      &#8592;
+    </button>
+    <span style="text-align: center">{{ pages.currentPage }}</span>
+    <button
+      type="button"
+      [disabled]="!pages.hasNextPage"
+      (click)="pages.onNextPage()"
+      class="ww-button ww-button-regular"
+    >
+      &#8594;
+    </button>
+  </div>
+
+  <!-- Selection List -->
+  <div class="ww-card-select-component">
+    <div
+      class="ww-card"
+      *ngFor="let user of users; let i = index"
+      (click)="onSelect(i)"
+      draggable="true"
+      (dragstart)="dnd.onDragStart($event,'user')"
+      (dragover)="dnd.onDragOver($event)"
+      (drop)="dnd.onDropSelf()"
+      [attr.data-id]="user.id"
+      [attr.data-source]="listName"
+      [class.ww-card-selected]="user.isSelected"
+      (contextmenu)="onContextMenu($event,user.id)"
+    >
+      <div class="ww-avatar-container ww-avatar-container-regular">
+        <img
+          *ngIf="user.image"
+          src="{{ user.image.url }}"
+          class="ww-avatar-container ww-avatar-container-regular ww-avatar ww-avatar-regular"
+        />
+        <div
+          *ngIf="!user.image"
+          class="ww-avatar-container ww-avatar-container-regular ww-initial-icon"
+        >
+          {{ user.firstName.substr(0, 1) }}
+        </div>
+      </div>
+      <div class="ww-info-block">
+        <b>{{ user.firstName }} {{ user.lastName }}</b>
+        <p>{{ user.alias }}</p>
+        <p>{{ user.email }}</p>
+      </div>
+    </div>
+  </div>
+</div>

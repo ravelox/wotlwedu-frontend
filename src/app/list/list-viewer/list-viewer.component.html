@@ -1,0 +1,55 @@
+<div
+  class="ww-flex-column ww-selection-component"
+  style="z-index: 2000; position: absolute; top: 40px; left: 40px; width: 15svw"
+  id="listviewer"
+>
+  <div
+    class="ww-flex-row ww-selection-component-title"
+    style="align-items: center"
+  >
+    <div id="listviewerheader" class="ww-selection-component-title">
+      {{ (list ? list.name : "List" ) }}
+    </div>
+    <button type="button" class="ww-filter-reset-button" (click)="onClose()">
+      X
+    </button>
+  </div>
+  <div class="ww-flex-column" style="padding: 5px">
+    <div class="ww-flex-column" style="justify-content: left">
+      <p>{{ (list ? list.description : "") }}</p>
+    </div>
+    <div class="ww-label">Items</div>
+    <div
+      class="ww-flex-column"
+      style="max-height: 100px; gap: 5px; overflow-y: scroll"
+    >
+      <div *ngIf="list">
+        <div
+          *ngFor="let item of list.items; let i = index"
+          class="ww-card ww-no-select"
+          (contextmenu)="onContextMenu($event, i)"
+        >
+          <div class="ww-avatar-container ww-avatar-container-regular">
+            <img
+              *ngIf="item.image"
+              src="{{ item.image.url }}"
+              class="ww-avatar-container ww-avatar-container-regular ww-avatar ww-avatar-regular"
+            />
+            <div
+              *ngIf="!item.image"
+              class="ww-avatar-container ww-avatar-container-regular ww-initial-icon"
+            >
+              {{ item.name.substr(0, 1) }}
+            </div>
+          </div>
+          <div class="ww-info-block">
+            <b>{{ item.name }}</b>
+            <p>{{ item.description }}</p>
+            <p *ngIf="item.location">{{ item.location }}</p>
+            <p *ngIf="item.url">{{ item.url }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

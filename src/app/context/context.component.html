@@ -1,0 +1,8 @@
+<div class="ww-context-menu" *ngIf="show" [style.top.px]="divTop" [style.left.px]="divLeft">
+    <ul>
+        <li class="ww-list-item" *ngFor="let option of options; let i=index;" [class.ww-item-disabled]="!option.enabled" [style.pointer-events]="(option.enabled ? '' : 'none')" (click)="onSelect(i);">
+            <div *ngIf="option.name !== '_hr_'">{{ option.name }}</div>
+            <div *ngIf="option.name === '_hr_'"><hr/></div>
+        </li>
+    </ul>
+</div>

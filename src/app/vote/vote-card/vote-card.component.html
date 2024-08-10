@@ -1,0 +1,92 @@
+<div
+  class="ww-flex-column ww-selection-component ww-external-selection-component"
+  style="width: 15svw"
+>
+  <div class="ww-selection-component-title">Votes</div>
+  <app-modal-alert
+  *ngIf="alertBox.errorMessage"
+  [message]="alertBox.errorMessage"
+  (close)="alertBox.onCloseAlert()"
+></app-modal-alert>
+  <!-- Filter Input Box -->
+  <!-- Filter Input Box -->
+  <div class="ww-flex-row ww-filter-input-container" style="width: 10rem">
+    <form [formGroup]="filter.form" #f="ngForm">
+      <label for="filterInput">Filter</label>
+      <div class="ww-flex-row">
+        <input
+          class="ww-filter-input-box"
+          type="text"
+          id="filterString"
+          formControlName="filterString"
+          (input)="filter.onChange($event)"
+        />
+        <button
+          type="button"
+          class="ww-button-theme ww-filter-reset-button"
+          (click)="filter.onReset()"
+        >
+          X
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Page Buttons -->
+  <div class="ww-flex-row ww-page-button-container">
+    <button
+      type="button"
+      [disabled]="!pages.hasPrevPage"
+      (click)="pages.onPrevPage()"
+      class="ww-button ww-button-regular"
+    >
+      &#8592;
+    </button>
+    <span style="text-align: center">{{ pages.currentPage }}</span>
+    <button
+      type="button"
+      [disabled]="!pages.hasNextPage"
+      (click)="pages.onNextPage()"
+      class="ww-button ww-button-regular"
+    >
+      &#8594;
+    </button>
+  </div>
+  <!-- Selection List -->
+  <div class="ww-card-select-component-mini">
+    <div
+      class="ww-card ww-flex-row"
+      *ngFor="let vote of votes; let i = index"
+      (click)="onSelect(i)"
+      draggable="true"
+      (dragstart)="dnd.onDragStart($event,'vote')"
+      (dragover)="dnd.onDragOver($event)"
+      (drop)="dnd.onDropSelf()"
+      [attr.data-id]="vote.id"
+      [attr.data-source]="listName"
+      [class.ww-card-selected]="vote.isSelected"
+      (contextmenu)="onContextMenu($event, vote.id)"
+    >
+       <div class="ww-avatar-container ww-avatar-container-regular">
+        <img
+          *ngIf="vote.item.image"
+          src="{{ vote.item.image.url }}"
+          class="ww-avatar-container ww-avatar-container-regular ww-avatar ww-avatar-regular"
+        />
+        <div
+          *ngIf="!vote.item.image"
+          class="ww-avatar-container ww-avatar-container-regular ww-initial-icon"
+        >
+          
+            {{ vote.item.name.substr(0, 1) }}
+          
+        </div>
+      </div>
+      <div class="ww-info-block">
+        <b>{{ vote.election.name }}</b>
+        <p>{{vote.user.fullName}}</p>
+        <p>{{ vote.item.name }}</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,171 @@
+<app-modal-alert
+  *ngIf="alertBox.errorMessage"
+  [message]="alertBox.errorMessage"
+  (close)="alertBox.onCloseAlert()"
+></app-modal-alert>
+<app-modal-loader *ngIf="isLoading"></app-modal-loader>
+<app-context
+  [options]="contextMenu.options"
+  [objectId]="contextMenu.objectId"
+  (clickAway)="contextMenu.hide()"
+  [objectId]="contextMenu.objectId"
+  [objectData]="contextMenu.objectData"
+  [show]="contextMenu.showMenu"
+  [divTop]="contextMenu.top"
+  [divLeft]="contextMenu.left"
+></app-context>
+<app-modal-dialog
+  *ngIf="confirmDialog.isVisible"
+  [message]="confirmDialog.message"
+  (close)="confirmDialog.onCloseClick()"
+  (yesAction)="confirmDialog.onYesClick()"
+  (noAction)="confirmDialog.onNoClick()"
+></app-modal-dialog>
+<div
+  class="ww-flex-column ww-selection-component ww-external-selection-component"
+>
+  <div class="ww-selection-component-title">Elections</div>
+
+  <!-- Filter Input Box -->
+  <div class="ww-flex-row ww-filter-input-container" style="width: 10rem">
+    <form [formGroup]="filter.form" #f="ngForm">
+      <label for="filterInput">Filter</label>
+      <div class="ww-flex-row">
+        <input
+          class="ww-filter-input-box"
+          type="text"
+          id="filterString"
+          formControlName="filterString"
+          (input)="filter.onChange($event)"
+        />
+        <button
+          type="button"
+          class="ww-button-theme ww-filter-reset-button"
+          (click)="filter.onReset()"
+        >
+          X
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Page Buttons -->
+  <div class="ww-flex-row ww-page-button-container" style="width: 10rem">
+    <button
+      type="button"
+      [disabled]="!pages.hasPrevPage"
+      (click)="pages.onPrevPage()"
+      class="ww-button ww-button-regular"
+    >
+      &#8592;
+    </button>
+    <span style="text-align: center">{{ pages.currentPage }}</span>
+    <button
+      type="button"
+      [disabled]="!pages.hasNextPage"
+      (click)="pages.onNextPage()"
+      class="ww-button ww-button-regular"
+    >
+      &#8594;
+    </button>
+  </div>
+
+  <!-- Selection List -->
+  <div *ngIf="!isCard" class="ww-table-container" style="width: 100%">
+    <table class="ww-table" style="width: 100%">
+      <thead>
+        <th>Name</th>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let election of elections; let i = index"
+          (click)="onSelect(i)"
+          (contextmenu)="onContextMenu($event, i)"
+        >
+          <td>{{ election.name }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="isCard" class="ww-card-select-component-mini">
+    <div
+      class="ww-card ww-flex-row"
+      style="width: 100%"
+      *ngFor="let election of elections; let i = index"
+      (click)="onSelect(i)"
+      draggable="true"
+      (dragstart)="dnd.onDragStart($event, 'election')"
+      (dragover)="dnd.onDragOver($event)"
+      (drop)="dnd.onDropSelf()"
+      [attr.data-id]="election.id"
+      [attr.data-source]="listName"
+      [class.ww-card-selected]="election.isSelected"
+      (contextmenu)="onContextMenu($event, i)"
+    >
+      <div class="ww-flex-row">
+        <div
+          *ngIf="election.status.name === 'In Progress'"
+          style="
+            flex-grow: 1;
+            justify-items: center;
+            align-content: center;
+            font-size: 2rem;
+            padding: 2px;
+            margin: 0;
+            box-sizing: border-box;
+            color: green;
+          "
+        >
+          &#x25CF;
+        </div>
+        <div
+          *ngIf="election.status.name === 'Stopped'"
+          style="
+            flex-grow: 1;
+            justify-items: center;
+            align-content: center;
+            font-size: 2rem;
+            padding: 2px;
+            margin: 0;
+            box-sizing: border-box;
+            color: red;
+          "
+        >
+          &#x25CF;
+        </div>
+        <div
+          *ngIf="election.status.name === 'Not Started'"
+          style="
+            flex-grow: 1;
+            justify-items: center;
+            align-content: center;
+            font-size: 2rem;
+            padding: 2px;
+            margin: 0;
+            box-sizing: border-box;
+            color: black;
+          "
+        >
+          &#x25CB;
+        </div>
+      </div>
+      <div class="ww-avatar-container ww-avatar-container-regular">
+        <img
+          *ngIf="election.image"
+          src="{{ election.image.url }}"
+          class="ww-avatar-container ww-avatar-container-regular ww-avatar ww-avatar-regular"
+        />
+        <div
+          *ngIf="!election.image"
+          class="ww-avatar-container ww-avatar-container-regular ww-initial-icon"
+        >
+          {{ election.name.substr(0, 1) }}
+        </div>
+        <div class="ww-info-block" style="width: 100%">
+          <b>{{ election.name }}</b>
+          <p>{{ election.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

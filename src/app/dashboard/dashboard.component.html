@@ -1,0 +1,12 @@
+<div class="ww-flex-row ww-main-component" id="dashboardcomponent">
+  <app-notification-select></app-notification-select>
+  <app-friend-select></app-friend-select>
+  <app-election-select [isCard]="true" listTitle="Elections You Created"></app-election-select>
+  <app-dashboard-vote-card></app-dashboard-vote-card>
+  <div
+    style="display: grid; grid-auto-flow: row; grid-template-rows: 0.3fr 0.7fr; gap: 5px;"
+  >
+    <app-vote-cast></app-vote-cast>
+    <app-statistics></app-statistics>
+  </div>
+</div>

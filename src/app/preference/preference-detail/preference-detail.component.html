@@ -1,0 +1,60 @@
+<app-modal-alert
+  *ngIf="alertBox.errorMessage"
+  [message]="alertBox.errorMessage"
+  (close)="alertBox.onCloseAlert()"
+></app-modal-alert>
+<div class="ww-flex-column ww-detail-component" style="width: 25svw">
+  <!-- Form Input -->
+  <form
+    [formGroup]="preferenceDetailForm"
+    (ngSubmit)="onSubmit()"
+    #f="ngForm"
+    class="ww-flex-column ww-form"
+  >
+    <input type="hidden" id="preferenceId" formControlName="preferenceId" />
+    <div class="ww-flex-column ww-form-input">
+      <div class="ww-label">Name</div>
+      <input formControlName="name" type="text" id="name" required />
+    </div>
+    <div class="ww-flex-column ww-form-input">
+      <div class="ww-label">Value</div>
+      <input formControlName="value" type="text" id="value" required />
+    </div>
+
+    <!-- Button Panel -->
+    <div class="ww-button-container">
+      <button
+        *ngIf="!editMode"
+        type="submit"
+        [disabled]="!f.valid || !(f.touched || f.dirty)"
+        class="ww-button ww-button-green"
+      >
+        Add
+      </button>
+      <button
+        *ngIf="editMode"
+        type="submit"
+        [disabled]="!f.valid || !(f.touched || f.dirty)"
+        class="ww-button ww-button-blue"
+      >
+        Save
+      </button>
+      <button
+        class="ww-button ww-button-yellow"
+        type="button"
+        [disabled]="!(f.touched || f.dirty)"
+        (click)="onCancel()"
+      >
+        Cancel
+      </button>
+      <button
+        *ngIf="editMode"
+        type="button"
+        class="ww-button ww-button-red"
+        (click)="onDelete()"
+      >
+        Delete
+      </button>
+    </div>
+  </form>
+</div>

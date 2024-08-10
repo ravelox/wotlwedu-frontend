@@ -1,0 +1,138 @@
+<app-modal-alert
+  *ngIf="alertBox.errorMessage"
+  [message]="alertBox.errorMessage"
+  (close)="onCloseAlert()"
+></app-modal-alert>
+<div
+  class="ww-flex-row ww-main-component"
+  style="
+    justify-content: center;
+    align-items: center;
+    min-height: var(--selection-container-height);
+  "
+  id="authcomponent"
+>
+  <div *ngIf="enable2faVisible">
+    <app-enable2fa (close2FA)="onClose2FA($event)" ></app-enable2fa>
+  </div>
+  <div *ngIf="verify2faVisible">
+    <app-2fa-mini (closeverify)="onCloseVerify2FA($event)" ></app-2fa-mini>
+  </div>
+  <div class="ww-flex-row ww-simple-component">
+    <form
+      [formGroup]="userProfileForm"
+      #f="ngForm"
+      class="ww-flex-column ww-form"
+    >
+    <div class="ww-selection-component-title">Profile</div>
+      <input type="hidden" id="userId" formControlName="userId" />
+      <div class="ww-form-input">
+        <label for="email">Email</label>
+        <input
+          formControlName="email"
+          type="text"
+          id="email"
+          autocomplete="off"
+          required
+          email
+        />
+      </div>
+      <div class="ww-form-input">
+        <label for="firstName">First Name</label>
+        <input
+          formControlName="firstName"
+          type="text"
+          id="firstName"
+          required
+        />
+      </div>
+      <div class="ww-form-input">
+        <label for="lastName">Last Name</label>
+        <input formControlName="lastName" type="text" id="lastName" required />
+      </div>
+      <div class="ww-form-input">
+        <label for="alias">Alias</label>
+        <input formControlName="alias" type="text" id="alias" required />
+      </div>
+      <div>
+        <div class="ww-label">Request password reset</div>
+        <input
+          formControlName="resetpassword"
+          type="checkbox"
+          id="resetpassword"
+        />
+      </div>
+      <div>
+        <div class="ww-label">Enable 2-factor authentication</div>
+        <input
+          formControlName="enable2fa"
+          type="checkbox"
+          id="resetpassword"
+          (change)="on2FACheckbox($event)"
+        />
+      </div>
+      <!-- Avatar Image -->
+      <div>
+        <div class="ww-label">Avatar Image</div>
+        <div
+          style="
+            border: 2px solid black;
+            width: 75px;
+            height: 75px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          "
+          (drop)="onDrop($event)"
+          (dragover)="onDragOver($event)"
+          (click)="toggleImageSelector()"
+        >
+          <img
+            src="{{ currentImage.url }}"
+            *ngIf="currentImage && currentImage.url"
+            style="height: 70px; width: 70px"
+          />
+          <div
+            *ngIf="!(currentImage && currentImage.url)"
+            class="ww-flex-column"
+            style="
+              height: 70px;
+              width: 70px;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            No Image
+          </div>
+        </div>
+      </div>
+
+      <app-image-select-mini
+        *ngIf="imageSelectorVisible"
+        style="z-index: 500; position: absolute"
+        (close)="toggleImageSelector()"
+      ></app-image-select-mini>
+      <!-- Button Panel -->
+      <div class="ww-button-container">
+        <button
+          type="submit"
+          [disabled]="!f.valid || !(f.touched || f.dirty)"
+          class="ww-button ww-button-blue"
+          (click)="onSubmit(f)"
+        >
+          Save
+        </button>
+        <button
+          class="ww-button ww-button-yellow"
+          type="button"
+          [disabled]="!(f.touched || f.dirty)"
+          (click)="onCancel()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+    <app-friend-select></app-friend-select>
+  </div>
+</div>

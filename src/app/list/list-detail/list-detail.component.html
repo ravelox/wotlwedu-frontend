@@ -1,0 +1,107 @@
+
+  <app-modal-alert
+  *ngIf="alertBox.errorMessage"
+  [message]="alertBox.errorMessage"
+  (close)="alertBox.onCloseAlert()"
+></app-modal-alert>
+<app-modal-dialog
+*ngIf="confirmDialog.isVisible"
+[message]="confirmDialog.message"
+(close)="confirmDialog.onCloseClick()"
+(yesAction)="confirmDialog.onYesClick()"
+(noAction)="confirmDialog.onNoClick()"
+></app-modal-dialog>
+<div class="ww-flex-column ww-detail-component" style="width: 25svw;">
+<!-- Form Input panel -->
+  <form
+    [formGroup]="listDetailForm"
+    (ngSubmit)="onSubmit()"
+    #f="ngForm"
+    class="ww-flex-column ww-form"
+    style="gap: 5px"
+  >
+    <input type="hidden" id="listId" formControlName="listId" />
+    <div class="ww-flex-column ww-form-input">
+      <div class="ww-label">Name</div>
+      <input formControlName="name" type="text" id="name" required />
+    </div>
+    <div class="ww-flex-column ww-form-input">
+      <div class="ww-label">Description</div>
+      <input
+        formControlName="description"
+        type="text"
+        id="description"
+        required
+      />
+    </div>
+
+    <!-- Items Selection List -->
+    <div
+      id="itemtable"
+      style="margin: 10px"
+      class="ww-table-container ww-selection-component ww-internal-selection-component"
+      (drop)="onDropItem($event)"
+      (dragover)="dnd.onDragOver($event)"
+      (dragstart)="dnd.onDragStart($event,'item')"
+    >
+      <div class="ww-selection-component-title">Assigned Items</div>
+      <div *ngIf="currentList">
+        <table class="ww-table" style="width: 9rem; align-items: center">
+          <tbody>
+            <tr
+              *ngFor="let item of currentList.items; let i = index"
+              [id]="listName"
+            >
+              <td
+                *ngIf="!item.isDeleted"
+                draggable="true"
+                [attr.data-id]="item.id"
+                [attr.data-source]="itemListName"
+                [class.ww-item-new]="item.isNew"
+                [class.ww-item-deleted]="item.isDeleted"
+              >
+                {{ item.name }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Button Panel -->
+    <div class="ww-button-container">
+      <button
+        *ngIf="!editMode"
+        type="submit"
+        [disabled]="!f.valid || !(f.touched || f.dirty)"
+        class="ww-button ww-button-green"
+      >
+        Add
+      </button>
+      <button
+        *ngIf="editMode"
+        type="submit"
+        [disabled]="!f.valid || !(f.touched || f.dirty)"
+        class="ww-button ww-button-blue"
+      >
+        Save
+      </button>
+      <button
+        class="ww-button ww-button-yellow"
+        type="button"
+        [disabled]="!(f.touched || f.dirty)"
+        (click)="onCancel()"
+      >
+        Cancel
+      </button>
+      <button
+        *ngIf="editMode"
+        type="button"
+        class="ww-button ww-button-red"
+        (click)="onDelete()"
+      >
+        Delete
+      </button>
+    </div>
+  </form>
+</div>

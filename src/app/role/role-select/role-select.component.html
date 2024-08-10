@@ -1,0 +1,67 @@
+
+<app-modal-alert
+*ngIf="alertBox.errorMessage"
+[message]="alertBox.errorMessage"
+(close)="alertBox.onCloseAlert()"
+></app-modal-alert>
+<div class="ww-flex-column ww-selection-component ww-external-selection-component">
+  <div class="ww-selection-component-title">Roles</div>
+<!-- Filter Input Box -->
+<div class="ww-flex-row ww-filter-input-container" style="width: 10rem">
+  <form [formGroup]="filter.form" #f="ngForm">
+    <label for="filterInput">Filter</label>
+    <div class="ww-flex-row">
+      <input
+        class="ww-filter-input-box"
+        type="text"
+        id="filterString"
+        formControlName="filterString"
+        (input)="filter.onChange($event)"
+      />
+      <button
+        type="button"
+        class="ww-button-theme ww-filter-reset-button"
+        (click)="filter.onReset()"
+      >
+        X
+      </button>
+    </div>
+  </form>
+</div>
+
+  <!-- Page Buttons -->
+  <div class="ww-flex-row ww-page-button-container" style="width: 10rem;">
+    <button
+      type="button"
+      [disabled]="!pages.hasPrevPage"
+      (click)="pages.onPrevPage()"
+      class="ww-button ww-button-regular"
+    >
+      &#8592;
+    </button>
+    <span style="text-align: center">{{ pages.currentPage }}</span>
+    <button
+      type="button"
+      [disabled]="!pages.hasNextPage"
+      (click)="pages.onNextPage()"
+      class="ww-button ww-button-regular"
+    >
+      &#8594;
+    </button>
+  </div>
+
+  <!-- Selection List -->
+  <div class="ww-table-container" style="width: 100%;">
+    <table class="ww-table" style="width: 100%;">
+      <thead>
+        <th>Name</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let role of roles; let i = index" (click)="onSelect(i)" (contextmenu)="onContextMenu($event,role.id)">
+          <td *ngIf="!role.protected">{{ role.name }}</td>
+          <td *ngIf="role.protected">[{{ role.name }}]</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

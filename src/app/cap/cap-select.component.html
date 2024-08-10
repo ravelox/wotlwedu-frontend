@@ -1,0 +1,49 @@
+<div class="ww-flex-column ww-selection-component ww-external-selection-component">
+  <div class="ww-selection-component-title">Capabilities</div>
+  <!-- Filter Input Box -->
+  <!-- Filter Input Box -->
+  <div class="ww-flex-row ww-filter-input-container" style="width: 10rem">
+    <form [formGroup]="filter.form" #f="ngForm">
+      <label for="filterInput">Filter</label>
+      <div class="ww-flex-row">
+        <input
+          class="ww-filter-input-box"
+          type="text"
+          id="filterString"
+          formControlName="filterString"
+          (input)="filter.onChange($event)"
+        />
+        <button
+          type="button"
+          class="ww-button-theme ww-filter-reset-button"
+          (click)="filter.onReset()"
+        >
+          X
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Selection List -->
+  <div class="ww-table-container" style="width: 100%;">
+    <table class="ww-table" style="width: 100%;">
+      <thead>
+        <th>Name</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cap of caps; let i = index" (click)="onSelect(i)">
+          <td
+            draggable="true"
+            (dragstart)="dnd.onDragStart($event,'capability')"
+            (dragover)="dnd.onDragOver($event)"
+            [attr.data-id]="cap.id"
+            [attr.data-source]="listName"
+            (contextmenu)="onContextMenu($event, i)"
+          >
+            {{ cap.name }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
