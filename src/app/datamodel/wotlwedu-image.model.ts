@@ -5,5 +5,6 @@ export class WotlweduImage extends WotlweduMenuItem{
     contentType: string;
     description: string;
     name: string;
+    filename: string;
     url: string;
 }
