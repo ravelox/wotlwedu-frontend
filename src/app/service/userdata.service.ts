@@ -68,6 +68,7 @@ export class UserDataService extends WotlweduPagination {
       active: userObject.active,
       verified: userObject.verified,
       imageId: userObject.image.id,
+      admin: userObject.admin
     };
 
     let url = this.ENDPOINT;
