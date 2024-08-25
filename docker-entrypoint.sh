@@ -14,7 +14,7 @@ WOTLWEDU_SSL_KEY_FILE
 #
 # Copy in the parameterized (is that a word?) version of the global.ts file to allow
 # for API URL configuration by environment variable from the docker run command
-cd /var/opt/wotlwedu-minimal
+cd /var/opt/wotlwedu-frontend
 envsubst < src/environments/global.docker-prod.ts > src/app/global.ts.tmp && mv src/app/global.ts.tmp src/app/global.ts
 ng build --configuration=docker-prod
 
