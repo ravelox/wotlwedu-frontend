@@ -6,7 +6,7 @@ import { GlobalVariable } from '../global';
 
 @Injectable({ providedIn: 'root' })
 export class HealthcheckService {
-  private ENDPOINT = GlobalVariable.BASE_URL + 'ping';
+  private ENDPOINT = GlobalVariable.BASE_API_URL + 'ping';
 
   constructor(private http: HttpClient) {}
 

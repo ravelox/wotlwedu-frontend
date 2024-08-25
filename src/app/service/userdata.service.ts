@@ -13,7 +13,7 @@ export class UserDataService extends WotlweduPagination {
   dataChanged = new Subject<WotlweduUser[]>();
   details = new Subject<WotlweduUser>();
   refreshFriends = new Subject<boolean>();
-  private ENDPOINT: string = GlobalVariable.BASE_URL + 'user/';
+  private ENDPOINT: string = GlobalVariable.BASE_API_URL + 'user/';
 
   constructor(
     private http: HttpClient,

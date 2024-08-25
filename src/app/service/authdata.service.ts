@@ -12,7 +12,7 @@ export class AuthDataService {
   isLoggedIn = new BehaviorSubject<any>(null);
   userDisplayName: string = null;
   private loggedIn: boolean = false;
-  private ENDPOINT: string = GlobalVariable.BASE_URL + "login/";
+  private ENDPOINT: string = GlobalVariable.BASE_API_URL + "login/";
 
   constructor(
     private http: HttpClient,

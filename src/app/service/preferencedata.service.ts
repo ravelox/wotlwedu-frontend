@@ -11,7 +11,7 @@ import { GlobalVariable } from '../global';
 export class PreferenceDataService extends WotlweduPagination {
   dataChanged = new Subject<WotlweduPreference[]>();
   details = new Subject<WotlweduPreference>();
-  private ENDPOINT = GlobalVariable.BASE_URL + 'preference/';
+  private ENDPOINT = GlobalVariable.BASE_API_URL + 'preference/';
 
   /* Strange thing here...
   We need to use the itemsperpage prefence value to know how

@@ -13,7 +13,7 @@ import { SharedDataService } from './shareddata.service';
 export class ItemDataService extends WotlweduPagination {
   dataChanged = new Subject<WotlweduItem[]>();
   details = new Subject<WotlweduItem>();
-  private ENDPOINT = GlobalVariable.BASE_URL + 'item/';
+  private ENDPOINT = GlobalVariable.BASE_API_URL + 'item/';
 
   constructor(
     private http: HttpClient,

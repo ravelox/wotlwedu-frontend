@@ -13,7 +13,7 @@ import { SharedDataService } from './shareddata.service';
 export class ElectionDataService extends WotlweduPagination {
   dataChanged = new Subject<WotlweduElection[]>();
   details = new Subject<WotlweduElection>();
-  private ENDPOINT: string = GlobalVariable.BASE_URL + 'election/';
+  private ENDPOINT: string = GlobalVariable.BASE_API_URL + 'election/';
 
   constructor(
     private http: HttpClient,

@@ -9,7 +9,7 @@ import { DataSignalService } from './datasignal.service';
 
 @Injectable({ providedIn: 'root' })
 export class SharedDataService {
-  private ENDPOINT = GlobalVariable.BASE_URL + 'helper/';
+  private ENDPOINT = GlobalVariable.BASE_API_URL + 'helper/';
   private status: any[] = [];
   private preference: WotlweduPreference[] = [];
   private _preferenceSub = null;

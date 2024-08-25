@@ -12,7 +12,7 @@ import { SharedDataService } from './shareddata.service';
 export class NotificationDataService extends WotlweduPagination {
   dataChanged = new Subject<WotlweduNotification[]>();
   details = new Subject<WotlweduNotification>();
-  private ENDPOINT: string = GlobalVariable.BASE_URL + 'notification/';
+  private ENDPOINT: string = GlobalVariable.BASE_API_URL + 'notification/';
 
   constructor(
     private http: HttpClient,

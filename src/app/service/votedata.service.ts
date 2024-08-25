@@ -13,7 +13,7 @@ export class VoteDataService extends WotlweduPagination {
   dataChanged = new Subject<WotlweduVote[]>();
   details = new Subject<WotlweduVote>();
   refreshVotes = new Subject<boolean>();
-  private ENDPOINT = GlobalVariable.BASE_URL + 'vote/';
+  private ENDPOINT = GlobalVariable.BASE_API_URL + 'vote/';
 
   constructor(
     private http: HttpClient,
@@ -109,7 +109,7 @@ export class VoteDataService extends WotlweduPagination {
 
   cast(voteId: string, decision: string) {
     if (!voteId || !decision) return of(null);
-    let url = GlobalVariable.BASE_URL + 'cast/' + voteId + '/' + decision;
+    let url = GlobalVariable.BASE_API_URL + 'cast/' + voteId + '/' + decision;
     return this.http.get<WotlweduApiResponse>(url);
   }
 }

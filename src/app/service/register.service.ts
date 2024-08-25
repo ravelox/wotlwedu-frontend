@@ -6,7 +6,7 @@ import { WotlweduApiResponse } from '../datamodel/wotlwedu-api-response.model';
 
 @Injectable()
 export class RegisterService {
-  private ENDPOINT: string = GlobalVariable.BASE_URL + 'register';
+  private ENDPOINT: string = GlobalVariable.BASE_API_URL + 'register';
 
   constructor(private http: HttpClient) {}
 

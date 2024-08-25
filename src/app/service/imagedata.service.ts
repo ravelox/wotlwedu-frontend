@@ -12,7 +12,7 @@ import { SharedDataService } from './shareddata.service';
 export class ImageDataService extends WotlweduPagination {
   dataChanged = new Subject<WotlweduImage[]>();
   details = new Subject<WotlweduImage>();
-  private ENDPOINT: string = GlobalVariable.BASE_URL + 'image/';
+  private ENDPOINT: string = GlobalVariable.BASE_API_URL + 'image/';
 
   constructor(
     private http: HttpClient,

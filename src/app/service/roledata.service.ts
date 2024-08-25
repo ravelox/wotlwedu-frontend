@@ -13,7 +13,7 @@ import { SharedDataService } from './shareddata.service';
 export class RoleDataService extends WotlweduPagination {
   dataChanged = new Subject<WotlweduRole[]>();
   details = new Subject<WotlweduRole>();
-  private ENDPOINT: string = GlobalVariable.BASE_URL + 'role/';
+  private ENDPOINT: string = GlobalVariable.BASE_API_URL + 'role/';
 
   constructor(
     private http: HttpClient,

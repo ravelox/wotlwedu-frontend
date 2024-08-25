@@ -11,7 +11,7 @@ import { GlobalVariable } from '../global';
 export class CapDataService extends WotlweduPagination {
   dataChanged = new Subject<WotlweduCap[]>();
   details = new Subject<WotlweduCap>();
-  private ENDPOINT: string = GlobalVariable.BASE_URL + 'capability/';
+  private ENDPOINT: string = GlobalVariable.BASE_API_URL + 'capability/';
 
   constructor(private http: HttpClient) {
     super();
