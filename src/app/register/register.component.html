@@ -26,6 +26,7 @@
       </div>
 
       <form
+      [formGroup]="registrationForm"
         (ngSubmit)="onSubmit(f)"
         #f="ngForm"
         class="ww-flex-column"
@@ -34,7 +35,7 @@
         <div>
           <div class="ww-form-input">
             <label for="email">Email Address</label>
-            <input type="text" name="email" id="email" ngModel required email />
+            <input type="text" name="email" id="email" formControlName="email" required email />
           </div>
           <div class="ww-form-input">
             <label for="firstName">First Name</label>
@@ -42,17 +43,45 @@
               type="text"
               name="firstName"
               id="firstName"
-              ngModel
+              formControlName="firstName"
               required
             />
           </div>
           <div class="ww-form-input">
             <label for="lastName">Last Name</label>
-            <input type="text" name="lastName" id="lastName" ngModel required />
+            <input type="text" name="lastName" id="lastName" formControlName="lastName" required />
           </div>
           <div class="ww-form-input">
             <label for="alias">Alias</label>
-            <input type="text" name="alias" id="alias" ngModel required />
+            <input type="text" name="alias" id="alias" formControlName="alias" required />
+          </div>
+          <div class="ww-form-input">
+            <label for="newpass">New Password</label>
+            <input
+              type="password"
+              id="newpass"
+              formControlName="newpass"
+              required
+            />
+          </div>
+          <div class="ww-form-input">
+            <label for="verifypass">Re-enter password</label>
+            <input
+              type="password"
+              id="verifypass"
+              formControlName="verifypass"
+              required
+            />
+          </div>
+          <br />
+          <div
+            *ngIf="registrationForm.errors"
+            style="background-color: red; color: white"
+          >
+            <p>Passwords do not match</p>
+          </div>
+          <div *ngIf="!registrationForm.errors">
+            <p>&nbsp;</p>
           </div>
         </div>
         <div
@@ -107,7 +136,7 @@
           font-size: 0.75rem;
           text-decoration: none;
         "
-        >Go to Login</a
+        >Back</a
       >
     </div>
   </div>
