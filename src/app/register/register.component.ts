@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { WotlweduRegistration } from '../datamodel/wotlwedu-registration.model';
 import { RegisterService } from '../service/register.service';
 import { ActivatedRoute } from '@angular/router';
 import { WotlweduAlert } from '../controller/wotlwedu-alert-controller.class';
+import * as bcrypt from 'bcryptjs';
+import { CompareValidator } from '../validator/compare.validator';
 
 @Component({
   selector: 'app-register',
@@ -11,6 +13,7 @@ import { WotlweduAlert } from '../controller/wotlwedu-alert-controller.class';
   styleUrl: './register.component.css',
 })
 export class RegisterComponent implements OnInit {
+  registrationForm: FormGroup;
   registrationInProgress: boolean = true;
   registrationComplete: boolean = false;
   userConfirmed: boolean = false;
@@ -38,6 +41,8 @@ export class RegisterComponent implements OnInit {
 
       this.confirmUser(this.route.snapshot.params.registertoken);
     }
+
+    this.initForm();
   }
 
   onSubmit(registerForm: NgForm) {
@@ -48,6 +53,13 @@ export class RegisterComponent implements OnInit {
     registration.lastName = registerForm.value.lastName;
     registration.alias = registerForm.value.alias;
 
+    const salt = bcrypt.genSaltSync(12);
+    const encryptedPwd = bcrypt.hashSync(
+      this.registrationForm.value.newpass,
+      salt
+    );
+    registration.auth = encryptedPwd;
+
     this.registerService.register(registration).subscribe({
       error: (err) => this.alertBox.handleError(err),
       next: (response) => {
@@ -55,6 +67,24 @@ export class RegisterComponent implements OnInit {
         this.registrationInProgress = false;
       },
     });
+  }
+
+  initForm() {
+    this.registrationForm = new FormGroup({
+      email: new FormControl('', Validators.required),
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      alias: new FormControl('', Validators.required),
+      newpass: new FormControl('', Validators.required),
+      verifypass: new FormControl('', Validators.required),
+    });
+
+    this.registrationForm.addValidators(
+      new CompareValidator().validate(
+        this.registrationForm.get('newpass'),
+        this.registrationForm.get('verifypass')
+      )
+    );
   }
 
   confirmUser(token: string) {
